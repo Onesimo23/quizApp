@@ -1,0 +1,719 @@
+teno esse codigo em flutter que esta dividido em pastas, primeiro vou lançar o codigo da pasta models: tenho o live_quiz: // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/cupertino.dart';
+
+class LiveQuizModel {
+  final String name;
+  final IconData icon;
+  final int activePlayers;
+  LiveQuizModel({
+    required this.name,
+    required this.icon,
+    required this.activePlayers,
+  });
+}
+
+List<LiveQuizModel> liveQuizzes = [
+  LiveQuizModel(
+    name: "Ingles técnico",
+    icon: CupertinoIcons.book,
+    activePlayers: 1295,
+  )
+];
+o question_model: class QuestionModel {
+  final String question;
+  final String answer;
+  final List<String> options;
+  final bool hasAnswered;
+  String userAnswer;
+  bool isCorrectAnswerMarked;
+
+  QuestionModel({
+    required this.question,
+    required this.answer,
+    required this.options,
+    this.hasAnswered = false,
+    this.userAnswer = "",
+    this.isCorrectAnswerMarked = false,
+  });
+
+  bool isCorrect(String answer) => this.answer == answer;
+}
+e o recent_quiz: import 'package:flutter/cupertino.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:quiz_ui/models/question_model.dart';
+
+class RecentQuizModel {
+  final String name;
+  final IconData icon;
+  final int totalQuestions;
+  final int answeredQuestions;
+  final List<QuestionModel> questions;
+
+  RecentQuizModel({
+    required this.name,
+    required this.icon,
+    required this.totalQuestions,
+    required this.answeredQuestions,
+    required this.questions,
+  });
+}
+
+List<RecentQuizModel> recentQuizzes = [
+  RecentQuizModel(
+    name: "Cultura geral",
+    icon: CupertinoIcons.globe,
+    totalQuestions: 10,
+    answeredQuestions: 10,
+    questions: generateQuestionsForCategory("Cultura geral"),
+  ),
+  RecentQuizModel(
+    name: "Educação Fisica",
+    icon: CupertinoIcons.sportscourt,
+    totalQuestions: 10,
+    answeredQuestions: 10,
+    questions: generateQuestionsForCategory("Educação Fisica"),
+  ),
+  RecentQuizModel(
+    name: "Quimica",
+    icon: CupertinoIcons.flame,
+    totalQuestions: 10,
+    answeredQuestions: 10,
+    questions: generateQuestionsForCategory("Quimica"),
+  ),
+];
+
+List<QuestionModel> generateQuestionsForCategory(String categoryName) {
+  List<QuestionModel> questions = [];
+
+  switch (categoryName) {
+    case "Cultura geral":
+      questions.addAll(generateCulturaGeralQuestions());
+      break;
+    case "Educação Fisica":
+      questions.addAll(generateEducacaoFisicaQuestions());
+      break;
+    case "Quimica":
+      questions.addAll(generateQuimicaQuestions());
+      break;
+    // Adicione mais casos conforme necessário para outras categorias
+  }
+
+  return questions;
+}
+List<QuestionModel> generateCulturaGeralQuestions() {
+  return [
+    QuestionModel(
+      question: "Qual é a capital da França?",
+      answer: "Paris",
+      options: ["Berlim", "Londres", "Madri", "Paris"],
+    ),
+    QuestionModel(
+      question: "Quem escreveu 'Dom Quixote'?",
+      answer: "Miguel de Cervantes",
+      options: ["William Shakespeare", "Miguel de Cervantes", "Jane Austen", "Fyodor Dostoevsky"],
+    ),
+    QuestionModel(
+      question: "Qual é o maior oceano do mundo?",
+      answer: "Oceano Pacífico",
+      options: ["Oceano Atlântico", "Oceano Índico", "Oceano Antártico", "Oceano Pacífico"],
+    ),
+    QuestionModel(
+      question: "Quem pintou a Mona Lisa?",
+      answer: "Leonardo da Vinci",
+      options: ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Claude Monet"],
+    ),
+    QuestionModel(
+      question: "Qual é a montanha mais alta do mundo?",
+      answer: "Monte Everest",
+      options: ["Monte Kilimanjaro", "Monte Elbrus", "Monte Aconcágua", "Monte Everest"],
+    ),
+  ];
+}
+
+List<QuestionModel> generateEducacaoFisicaQuestions() {
+  return [
+    QuestionModel(
+      question: "Qual é o maior osso do corpo humano?",
+      answer: "Fêmur",
+      options: ["Tíbia", "Fíbula", "Fêmur", "Úmero"],
+    ),
+    QuestionModel(
+      question: "Quantos jogadores compõem um time de futebol?",
+      answer: "11",
+      options: ["9", "11", "13", "15"],
+    ),
+    QuestionModel(
+      question: "Em que esporte se usa uma raquete para rebater uma peteca?",
+      answer: "Badminton",
+      options: ["Tênis", "Badminton", "Pingue-pongue", "Squash"],
+    ),
+    QuestionModel(
+      question: "Qual é o nome do principal músculo responsável pela respiração?",
+      answer: "Diafragma",
+      options: ["Abdômen", "Peitoral", "Diafragma", "Traqueia"],
+    ),
+    QuestionModel(
+      question: "Qual é a modalidade esportiva que se pratica no gelo com uma bola e tacos?",
+      answer: "Hóquei no Gelo",
+      options: ["Curling", "Patinagem Artística", "Hóquei no Gelo", "Bobsleigh"],
+    ),
+  ];
+}
+
+List<QuestionModel> generateQuimicaQuestions() {
+  return [
+    QuestionModel(
+      question: "Qual é o símbolo químico do ouro?",
+      answer: "Au",
+      options: ["Ag", "Fe", "Cu", "Au"],
+    ),
+    QuestionModel(
+      question: "Quantos elementos químicos existem na tabela periódica?",
+      answer: "118",
+      options: ["92", "103", "118", "124"],
+    ),
+    QuestionModel(
+      question: "O que é pH?",
+      answer: "Medida de acidez ou basicidade",
+      options: ["Pressão Hidrostática", "Potencial Hidrogeniônico", "Medida de acidez ou basicidade", "Período Hidrodinâmico"],
+    ),
+    QuestionModel(
+      question: "Qual é o gás mais abundante na atmosfera terrestre?",
+      answer: "Nitrogênio",
+      options: ["Oxigênio", "Dióxido de Carbono", "Hidrogênio", "Nitrogênio"],
+    ),
+    QuestionModel(
+      question: "O que é uma reação endotérmica?",
+      answer: "Absorve calor",
+      options: ["Libera calor", "Absorve calor", "Transforma em eletricidade", "Gera luz"],
+    ),
+  ];
+}
+ e depois tenho a pages que tem essas duas paginas: home_page: import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:quiz_ui/models/live_quiz_model.dart';
+import 'package:quiz_ui/models/recent_quiz_model.dart';
+import 'package:quiz_ui/widgets/live_quiz.dart';
+import 'package:quiz_ui/widgets/quiz_header.dart';
+import 'package:quiz_ui/widgets/recent_quiz.dart';
+
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            const QuizHeader(),
+            Expanded(
+              child: ListView(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.only(
+                    top: 25, left: 15, right: 15, bottom: 15),
+                children: [
+                  Text(
+                    "Recent Quiz",
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  const SizedBox(height: 15),
+                  // Quiz Card which has an icon, title, total questions, and difficulty level
+                  ...List.generate(
+                    recentQuizzes.length,
+                    (index) {
+                      return RecentQuiz(recentQuizModel: recentQuizzes[index]);
+                    },
+                  ),
+                  const SizedBox(height: 25),
+                  Text(
+                    "Live Quiz",
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  const SizedBox(height: 15),
+                  ...List.generate(
+                    liveQuizzes.length,
+                    (index) {
+                      return LiveQuiz(liveQuizModel: liveQuizzes[index]);
+                    },
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Ionicons.home_outline),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Ionicons.ribbon_outline),
+            label: "Awards",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Ionicons.chatbox_ellipses_outline),
+            label: "Chat",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Ionicons.person_outline),
+            label: "Profile",
+          ),
+        ],
+      ),
+    );
+  }
+}
+ e o question_page:  import 'package:flutter/material.dart';
+import 'package:quiz_ui/models/question_model.dart';
+import 'dart:async';
+
+class QuestionPage extends StatefulWidget {
+  const QuestionPage({
+    Key? key,
+    required this.title,
+    required this.questions,
+  }) : super(key: key);
+
+  final String title;
+  final List<QuestionModel> questions;
+
+  @override
+  State<QuestionPage> createState() => _QuestionPageState();
+}
+
+class _QuestionPageState extends State<QuestionPage> {
+  int currentQuestion = 0;
+  final PageController _pageController = PageController();
+  bool showCorrectAnswer = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.black,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Question ${currentQuestion + 1}/${widget.questions.length}",
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 15),
+            Expanded(
+              child: PageView.builder(
+                controller: _pageController,
+                itemCount: widget.questions.length,
+                physics: const BouncingScrollPhysics(),
+                onPageChanged: (index) {
+                  setState(() {
+                    currentQuestion = index;
+                    showCorrectAnswer = false; // Reiniciar o indicador de resposta correta
+                  });
+                },
+                itemBuilder: (context, index) {
+                  final question = widget.questions[index];
+                  return ListView(
+                    physics: const BouncingScrollPhysics(),
+                    children: [
+                      Text(
+                        widget.questions[index].question,
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                      const SizedBox(height: 25),
+                      ...List.generate(
+                        question.options.length,
+                        (optionIndex) {
+                          final option = question.options[optionIndex];
+                          final isAnswerCorrect = question.isCorrect(option);
+
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: RadioListTile(
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(4)),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 8.0,
+                                horizontal: 8.0,
+                              ),
+                              tileColor: showCorrectAnswer
+                                  ? isAnswerCorrect
+                                      ? Colors.green.withOpacity(0.5)
+                                      : question.userAnswer == option
+                                          ? Colors.red.withOpacity(0.5)
+                                          : null
+                                  : null,
+
+                              title: Text(
+                                option,
+                              ),
+                              selected: question.userAnswer == option,
+                              value: option,
+                              activeColor: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer,
+                              groupValue: question.userAnswer,
+                              onChanged: (value) {
+                                setState(() {
+                                  widget.questions[index].userAnswer = value.toString();
+                                });
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.maxFinite,
+              height: 55,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (currentQuestion < widget.questions.length - 1) {
+                    setState(() {
+                      _pageController.nextPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeIn,
+                      );
+                      currentQuestion++;
+                      showCorrectAnswer = true; // Ativar o indicador de resposta correta
+                      Timer(const Duration(seconds: 10), () {
+                        setState(() {
+                          showCorrectAnswer = false; // Desativar o indicador após alguns segundos
+                        });
+                      });
+                    });
+                  } else {
+                    // Lógica para exibir a notificação de pontuação
+                    showScoreNotification();
+                  }
+                },
+                child: Text(
+                  currentQuestion < widget.questions.length - 1
+                      ? "Next"
+                      : "Submit",
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  void showScoreNotification() {
+    // Lógica para exibir a notificação de pontuação
+    int correctAnswers = 0;
+    for (final question in widget.questions) {
+      if (question.isCorrect(question.userAnswer)) {
+        correctAnswers++;
+      }
+    }
+
+    // Use a notificação ou outro método de exibição de pontuação
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Quiz Completed"),
+        content: Text("Você respondeu corretamente $correctAnswers das ${widget.questions.length} perguntas corretamente."),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+} por fim tenho a pasta widgets que tem: live_quiz: // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:quiz_ui/models/live_quiz_model.dart';
+
+class LiveQuiz extends StatelessWidget {
+  const LiveQuiz({
+    Key? key,
+    required this.liveQuizModel,
+  }) : super(key: key);
+  final LiveQuizModel liveQuizModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 4,
+      shadowColor: Colors.black26,
+      child: ListTile(
+        contentPadding: const EdgeInsets.all(15),
+        onTap: () {},
+        // make leading a custom widget with a background and icon inside
+        leading: Container(
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primary,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(
+            liveQuizModel.icon,
+            color: Colors.white,
+          ),
+        ),
+        title: Text(liveQuizModel.name),
+        subtitle: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(
+              Ionicons.people_outline,
+              size: 18,
+            ),
+            const SizedBox(width: 5),
+            Text(
+              "${liveQuizModel.activePlayers} users playing",
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+ o quiz_header:  import 'package:flutter/material.dart';
+
+class QuizHeader extends StatelessWidget {
+  const QuizHeader({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 250,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            height: 200,
+            padding:
+                const EdgeInsets.only(top: 20, left: 15, right: 15, bottom: 15),
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/quiz_bg.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Vamos aprender? ",
+                      style: Theme.of(context).textTheme.headline5!.copyWith(
+                            color:Color.fromARGB(255, 128, 128, 192),
+
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                    const SizedBox(height: 5),
+                    const Text(
+                      "Eu estou pronto e você?",
+                      style: TextStyle(
+                        color:Color.fromARGB(255, 2, 2, 192),
+                      ),
+                    )
+                  ],
+                ),
+                CircleAvatar(
+                  radius: 25,
+                  backgroundColor:
+                      Theme.of(context).colorScheme.secondaryContainer,
+                  child: Text(
+                    "J.N",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.onSecondaryContainer,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: -10,
+            left: 0,
+            right: 0,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: SizedBox(
+                height: 140,
+                child: Card(
+                  elevation: 5,
+                  shadowColor: Colors.black38,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Adicione o codigo da sua categoria",
+                          style:
+                              Theme.of(context).textTheme.subtitle1!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                        const SizedBox(height: 5),
+                        const Text("Para jogar com seus amigos"),
+                        const SizedBox(height: 15),
+                        Row(
+                          children: [
+                            const Expanded(
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  hintText: "Adicionar codigo",
+                                  filled: true,
+                                  contentPadding: EdgeInsets.all(10),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(5),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            ElevatedButton(
+                              onPressed: () {},
+                              child: const Text("Entrar"),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+ e por fim o recent_quiz:  // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:quiz_ui/models/recent_quiz_model.dart';
+import 'package:quiz_ui/pages/question_page.dart';
+
+// ... imports
+
+class RecentQuiz extends StatelessWidget {
+  const RecentQuiz({
+    Key? key,
+    required this.recentQuizModel,
+  }) : super(key: key);
+  final RecentQuizModel recentQuizModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 4,
+      shadowColor: Colors.black26,
+      child: ListTile(
+        contentPadding: const EdgeInsets.all(15),
+        onTap: () {
+          Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => QuestionPage(
+                title: recentQuizModel.name,
+                questions: recentQuizModel.questions, // Adicione esta linha
+              ),
+            ),
+          );
+        },
+        // make leading a custom widget with a background and icon inside
+        leading: Container(
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.secondary,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(
+            recentQuizModel.icon,
+            color: Colors.white,
+          ),
+        ),
+        title: Text(recentQuizModel.name),
+        subtitle: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(
+              Ionicons.document_text_outline,
+              size: 18,
+            ),
+            const SizedBox(width: 5),
+            Text(
+              "${recentQuizModel.answeredQuestions}/${recentQuizModel.totalQuestions} Questions",
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+e por fora das pastas tenho o main: import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:quiz_ui/pages/home_page.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Quiz de Preparação Universitária',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        textTheme: GoogleFonts.quicksandTextTheme(
+          Theme.of(context).textTheme,
+        ),
+      ),
+      home: const HomePage(),
+    );
+  }
+}
